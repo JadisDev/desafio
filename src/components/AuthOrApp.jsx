@@ -8,14 +8,13 @@ class AuthOrApp extends Component {
 
     componentWillMount() {
         if (this.props.auth.user) {
-            this.props.dispatchValidateToken(this.props.auth.user.token)
+            this.props.dispatchValidateToken(this.props.auth.user)
         }
     }
 
     render() {
         const { user, validToken } = this.props.auth
         if (user && validToken) {
-            console.log(user.token)
             // axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
             return <Home></Home>
         } else if (!user && !validToken) {

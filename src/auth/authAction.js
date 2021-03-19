@@ -35,7 +35,7 @@ export function validateToken(token) {
         if (token) {
             axios.post(`${consts.API_URL}/validate-token`, { token })
                 .then(resp => {
-                    dispatch({ type: TOKEN_VALIDATED, payload: resp.data.valid })
+                    dispatch({ type: TOKEN_VALIDATED, payload: resp.data.data.valid })
                 })
                 .catch(e => dispatch({ type: TOKEN_VALIDATED, payload: false }))
         } else {
