@@ -8,7 +8,7 @@ class AuthOrApp extends Component {
 
     componentWillMount() {
         if (this.props.auth.user) {
-            this.props.dispatchValidateToken(this.props.auth.user)
+            this.props.dispatchValidateToken(this.props.auth.user.token)
         }
     }
 
