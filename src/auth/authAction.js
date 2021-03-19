@@ -1,7 +1,8 @@
 import axios from 'axios'
 import consts from '../const'
 import { TOKEN_VALIDATED, USER_FETCHED } from '../store/action/actionsType'
-
+import { modelError } from '../model_error'
+import { toastr } from 'react-redux-toastr'
 
 export function login(values) {
     return submit(values, `${consts.API_URL}/login`)
@@ -12,17 +13,16 @@ export function signup(values) {
 }
 
 function submit(values, url) {
+
     return dispatch => {
         axios.post(url, values)
-        .then(resp => {
-            console.log(resp.data);
-            dispatch({ type: USER_FETCHED, payload: resp.data })
-        })
-        .catch(e => {
-            console.log(e)
-            // e.response.data.errors.forEach(
-            //     error => toastr.error('Erro', error))
-        })
+            .then(resp => {
+                toastr.success('Atenção', resp.data.message)
+                dispatch({ type: USER_FETCHED, payload: resp.data.data })
+            })
+            .catch(error => {
+                modelError(error)
+            })
     }
 }
 

@@ -25,14 +25,11 @@ const Login = (props) => {
 
             validationSchema={schema}
             onSubmit={values => {
-
-                console.log(values);
-                // same shape as initial values
-                // props.submitLogin(values)
+                props.submitLogin(values)
             }}
 
             initialValues={{
-                login: 'jsj',
+                login: 'xxxx',
                 password: '112233',
             }}
         >
