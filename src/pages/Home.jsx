@@ -5,6 +5,7 @@ import axios from 'axios'
 import { modelError } from '../model_error'
 import consts from '../const'
 import LineCardQuestion from '../components/LineCardQuestion'
+import { logout } from '../auth/authAction'
 
 const Home = (props) => {
 
@@ -32,7 +33,7 @@ const Home = (props) => {
     useEffect(() => {
         getUnansweredQuestions()
         getAnsweredQuestions()
-    }, [])
+    }, [props.alternativeSelected.alternativeResponse])
 
     return (
         <div className="body-app">
@@ -41,7 +42,12 @@ const Home = (props) => {
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                 </Nav>
-                <Button variant="outline-light">Sair</Button>
+                <Button
+                    variant="outline-light"
+                    onClick={() => props.logout()}
+                >
+                    Sair
+                </Button>
             </Navbar>
 
             <LineCardQuestion types={unansweredQuestions}></LineCardQuestion>
@@ -51,13 +57,17 @@ const Home = (props) => {
 
 function mapToStateToProps(state) {
     return {
-        auth: state.auth
+        auth: state.auth,
+        alternativeSelected: state.alternativeSelected
     }
 }
 
 function mapDispatchProp(dispatch) {
     return {
-
+        logout() {
+            const action = logout()
+            dispatch(action)
+        }
     }
 }
 

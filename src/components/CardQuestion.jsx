@@ -5,10 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from '../components/Button'
 import ListAlternative from './ListAlternative'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import consts from '../const'
-import { toastr } from 'react-redux-toastr'
-import { modelError } from '../model_error'
+import { chekAlternative } from '../alternative/alternativeAction'
 
 const CardQuestion = (props) => {
 
@@ -23,18 +20,6 @@ const CardQuestion = (props) => {
         setTitleSelected(title)
         setQuestionSelected(questions)
         handleShow()
-    }
-
-    const chekAlternative = () => {
-        const alternativeId = props.alternativeSelected.alternativeSelected
-        console.log(alternativeId)
-        axios.post(`${consts.API_URL}/api/games`, {'alternativeId': alternativeId})
-            .then(resp => {
-                toastr.success('Atenção', resp.data.message)
-            })
-            .catch(error => {
-                modelError(error)
-            })
     }
 
     return (
@@ -63,7 +48,10 @@ const CardQuestion = (props) => {
                 <Modal.Footer>
                     <Button
                         variant="primary"
-                        action={() => chekAlternative()}
+                        action={() => props.chekAlternative(
+                            props.alternativeSelected.alternativeSelected,
+                            props.alternativeSelected.alternativeResponse
+                        )}
                         name="Verificar"
                         type="submit"
                     />
@@ -81,7 +69,11 @@ function mapToStateToProps(state) {
 
 function mapDispatchProp(dispatch) {
     return {
-
+        chekAlternative(alternativeId, check) {
+            console.log(alternativeId, check)
+            const action = chekAlternative(alternativeId, check)
+            dispatch(action)
+        }
     }
 }
 

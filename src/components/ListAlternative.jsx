@@ -2,7 +2,7 @@ import React from 'react'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import { alternativeSelected } from '../alternative/alternativeAction'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 const ListAlternative = (props) => {
 

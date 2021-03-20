@@ -21,7 +21,7 @@ export function modelError(error) {
         if (error.response.data.cod === 422) {
             const messages = error.response.data.data
             if (Array.isArray(messages)) {
-                toastr.warning('Atenção', message, format(messages))
+                toastr.warning('Atenção', '', format(messages))
             } else {
                 toastr.warning('Atenção', messages)
             }

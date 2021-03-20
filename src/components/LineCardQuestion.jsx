@@ -5,6 +5,7 @@ import CardQuestion from './CardQuestion';
 const LineCardQuestion = (props) => {
 
     const { types } = props
+    console.log(types)
 
     return (
         <div>
