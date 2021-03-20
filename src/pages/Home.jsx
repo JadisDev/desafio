@@ -35,7 +35,7 @@ const Home = (props) => {
     }, [])
 
     return (
-        <>
+        <div className="body-app">
             <Navbar bg="primary" variant="dark">
                 <Navbar.Brand >Menu</Navbar.Brand>
                 <Nav className="mr-auto">
@@ -45,7 +45,7 @@ const Home = (props) => {
             </Navbar>
 
             <LineCardQuestion types={unansweredQuestions}></LineCardQuestion>
-        </>
+        </div>
     )
 }
 

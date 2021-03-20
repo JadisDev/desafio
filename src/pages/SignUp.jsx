@@ -11,7 +11,6 @@ import * as yup from 'yup';
 import {connect} from 'react-redux'
 import {signup} from '../auth/authAction'
 import { useHistory } from 'react-router-dom'
-import { toastr } from 'react-redux-toastr'
 
 const SiginUp = (props) => {
 
