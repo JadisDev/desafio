@@ -4,17 +4,25 @@ import CardQuestion from './CardQuestion';
 
 const LineCardQuestion = (props) => {
 
-    const { types } = props
-    console.log(types)
+    const { types, show } = props
 
     return (
         <div>
             <Container>
                 <Row>
-                    { types && types.length && types.map((type, index) => (
-                        <Col sm="6">
-                            <CardQuestion questions={type.questions} title={type.type} key={index}></CardQuestion>
-                        </Col>
+                    {types && types.length && types.map((type, index) => (
+                        <>
+                            {
+                                type.questions && type.questions.length > 0 &&
+                                <Col sm="4" key={index}>
+                                    <CardQuestion
+                                        questions={type.questions}
+                                        title={type.type}
+                                        show={show}
+                                    />
+                                </Col>
+                            }
+                        </>
                     ))}
                 </Row>
             </Container>

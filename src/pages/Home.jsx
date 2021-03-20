@@ -49,8 +49,22 @@ const Home = (props) => {
                     Sair
                 </Button>
             </Navbar>
+            <h3>
+                Para responder
+            </h3>
+            <LineCardQuestion types={unansweredQuestions} show={true} />
 
-            <LineCardQuestion types={unansweredQuestions}></LineCardQuestion>
+            <hr style={{
+                color: '#000000',
+                backgroundColor: '#000000',
+                height: .5,
+                borderColor: '#000000'
+            }} />
+
+            <h3>
+                Respondidas
+            </h3>
+            <LineCardQuestion types={answeredQuestions} show={false} />
         </div>
     )
 }

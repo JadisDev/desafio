@@ -2,16 +2,16 @@ import React from 'react'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import { alternativeSelected } from '../alternative/alternativeAction'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 const ListAlternative = (props) => {
 
-    const { alternatives } = props
+    const { alternatives, show } = props
 
     return (
         <div>
             <ButtonGroup toggle>
-                {alternatives.map((alternative, index) => (
+                {show && alternatives.map((alternative, index) => (
                     <ToggleButton
                         key={index}
                         type="radio"
@@ -23,6 +23,15 @@ const ListAlternative = (props) => {
                         {alternative.alternative}
                     </ToggleButton>
                 ))}
+
+                {!show && alternatives.map((alternative, index) => (
+                    <>
+                        {alternative.is_right &&
+                            <h5>Resposta: {alternative.alternative} </h5>
+                        }
+                    </>
+                ))}
+
             </ButtonGroup>
         </div>
     )

@@ -9,10 +9,10 @@ import { chekAlternative } from '../alternative/alternativeAction'
 
 const CardQuestion = (props) => {
 
-    const { questions, title, key } = props
-    const [show, setShow] = useState(false)
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
+    const { questions, title, show } = props
+    const [showModal, setShowModal] = useState(false)
+    const handleClose = () => setShowModal(false)
+    const handleShow = () => setShowModal(true)
     const [titleSelectd, setTitleSelected] = useState('')
     const [questionSelected, setQuestionSelected] = useState({})
 
@@ -24,9 +24,9 @@ const CardQuestion = (props) => {
 
     return (
         <div>
-            <Card key={{ key }}>
+            <Card className="card-question">
                 <Card.Body>
-                    <Card.Title> {title} </Card.Title>
+                    <Card.Title style={{fontWeight: "bold"}} > {title} </Card.Title>
                     {questions && questions.length && questions.map((question, index) => (
                         <Card.Text className="question" onClick={e => alternatives(question, title)}>
                             {question.description}
@@ -35,7 +35,7 @@ const CardQuestion = (props) => {
                 </Card.Body>
             </Card>
 
-            <Modal show={show} onHide={handleClose} size="lg">
+            <Modal show={showModal} onHide={handleClose} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>{titleSelectd}</Modal.Title>
                 </Modal.Header>
@@ -43,19 +43,22 @@ const CardQuestion = (props) => {
                     {questionSelected.description}
                     <ListAlternative
                         alternatives={questionSelected.alternatives}
+                        show={show}
                     />
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        variant="primary"
-                        action={() => props.chekAlternative(
-                            props.alternativeSelected.alternativeSelected,
-                            props.alternativeSelected.alternativeResponse
-                        )}
-                        name="Verificar"
-                        type="submit"
-                    />
-                </Modal.Footer>
+                {show &&
+                    <Modal.Footer>
+                        <Button
+                            variant="primary"
+                            action={() => props.chekAlternative(
+                                props.alternativeSelected.alternativeSelected,
+                                props.alternativeSelected.alternativeResponse
+                            )}
+                            name="Verificar"
+                            type="submit"
+                        />
+                    </Modal.Footer>
+                }
             </Modal>
         </div>
     )
