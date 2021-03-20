@@ -5,6 +5,10 @@ import Modal from 'react-bootstrap/Modal'
 import Button from '../components/Button'
 import ListAlternative from './ListAlternative'
 import { connect } from 'react-redux'
+import axios from 'axios'
+import consts from '../const'
+import { toastr } from 'react-redux-toastr'
+import { modelError } from '../model_error'
 
 const CardQuestion = (props) => {
 
@@ -22,7 +26,15 @@ const CardQuestion = (props) => {
     }
 
     const chekAlternative = () => {
-        console.log(props.alternativeSelected)
+        const alternativeId = props.alternativeSelected.alternativeSelected
+        console.log(alternativeId)
+        axios.post(`${consts.API_URL}/api/games`, {'alternativeId': alternativeId})
+            .then(resp => {
+                toastr.success('Atenção', resp.data.message)
+            })
+            .catch(error => {
+                modelError(error)
+            })
     }
 
     return (
