@@ -6,6 +6,7 @@ import reducer from './store/storeConfig'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import ReduxToastr from 'react-redux-toastr'
+import 'bootstrap/dist/js/bootstrap.js';
 import {applyMiddleware, createStore} from 'redux'
 import promisse from 'redux-promise'
 import multi from 'redux-multi'

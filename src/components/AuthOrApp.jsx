@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Login from '../pages/Login'
 import { validateToken } from '../auth/authAction'
 import Home from '../pages/Home'
+import axios from 'axios';
 
 class AuthOrApp extends Component {
 
@@ -15,7 +16,7 @@ class AuthOrApp extends Component {
     render() {
         const { user, validToken } = this.props.auth
         if (user && validToken) {
-            // axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token
             return <Home></Home>
         } else if (!user && !validToken) {
             return <Login />
