@@ -7,6 +7,7 @@ import consts from '../const'
 import LineCardQuestion from '../components/LineCardQuestion'
 import { logout } from '../auth/authAction'
 import ModalSuccess from '../components/ModalSuccess'
+import { disableVideo } from '../alternative/alternativeAction'
 
 const Home = (props) => {
 
@@ -86,6 +87,9 @@ function mapDispatchProp(dispatch) {
         logout() {
             const action = logout()
             dispatch(action)
+
+            const actionDisableVideo = disableVideo()
+            dispatch(actionDisableVideo)
         }
     }
 }
