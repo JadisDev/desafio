@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap'
+import { Nav, Navbar, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { modelError } from '../model_error'
 import consts from '../const'
 import LineCardQuestion from '../components/LineCardQuestion'
 import { logout } from '../auth/authAction'
+import ModalSuccess from '../components/ModalSuccess'
 
 const Home = (props) => {
 
@@ -37,6 +38,9 @@ const Home = (props) => {
 
     return (
         <div className="body-app">
+
+            <ModalSuccess />
+
             <Navbar bg="primary" variant="dark">
                 <Navbar.Brand >Menu</Navbar.Brand>
                 <Nav className="mr-auto">

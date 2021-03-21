@@ -10,7 +10,7 @@ export function alternativeSelected(id) {
         dispatch({ type: ALTERNATIVE_ID, payload: id })
     }
 }
-export function chekAlternative(alternativeId, check) {
+export function chekAlternative(alternativeId, check, callback) {
     return dispatch => {
         axios.post(`${consts.API_URL}/api/games`, { 'alternativeId': alternativeId })
             .then(resp => {
@@ -18,6 +18,7 @@ export function chekAlternative(alternativeId, check) {
                 const newValue = check ? false : true
                 dispatch({ type: ALTERNATIVE_RESPONSE, payload: newValue })
                 dispatch({ type: SHOW_VIDEO, payload: true })
+                callback()
             })
             .catch(error => {
                 modelError(error)

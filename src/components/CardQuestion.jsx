@@ -6,7 +6,6 @@ import Button from '../components/Button'
 import ListAlternative from './ListAlternative'
 import { connect } from 'react-redux'
 import { chekAlternative, disableVideo } from '../alternative/alternativeAction'
-import ReactPlayer from 'react-player'
 
 const CardQuestion = (props) => {
 
@@ -18,10 +17,6 @@ const CardQuestion = (props) => {
     const [questionSelected, setQuestionSelected] = useState({})
 
     const alternatives = (questions, title) => {
-
-        console.log(props.alternativeSelected.showVideo)
-        console.log(show)
-
         props.disableVideo()
         setTitleSelected(title)
         setQuestionSelected(questions)
@@ -55,27 +50,21 @@ const CardQuestion = (props) => {
                             />
                         </>
                     }
-                    {props.alternativeSelected.showVideo &&
-                        <ReactPlayer url='video.mp4' muted={true} controls={true} playing={true} />
-                    }
                 </Modal.Body>
-                {props.alternativeSelected.showVideo == false &&
-                    <Modal.Footer>
-                        <Button
-                            variant="primary"
-                            action={() => props.chekAlternative(
-                                props.alternativeSelected.alternativeSelected,
-                                props.alternativeSelected.alternativeResponse
-                            )}
-                            name="Verificar"
-                            type="submit"
-                        />
-                    </Modal.Footer>
-                }
-                {props.alternativeSelected.showVideo &&
-                    <h3>Parabéns, continue com as questões </h3>
-                }
-
+                    {props.alternativeSelected.showVideo == false && show == true &&
+                        <Modal.Footer>
+                            <Button
+                                variant="primary"
+                                action={() => props.chekAlternative(
+                                    props.alternativeSelected.alternativeSelected,
+                                    props.alternativeSelected.alternativeResponse,
+                                    handleClose
+                                )}
+                                name="Verificar"
+                                type="submit"
+                            />
+                        </Modal.Footer>
+                    }
             </Modal>
         </div>
     )
@@ -89,8 +78,10 @@ function mapToStateToProps(state) {
 
 function mapDispatchProp(dispatch) {
     return {
-        chekAlternative(alternativeId, check) {
-            const action = chekAlternative(alternativeId, check)
+        chekAlternative(alternativeId, check, handleClose) {
+            const action = chekAlternative(alternativeId, check, () => {
+                handleClose()
+            })
             dispatch(action)
         },
         disableVideo() {
