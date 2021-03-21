@@ -36,10 +36,10 @@ const SiginUp = (props) => {
                 props.dispatchSiginUp(values)
             }}
             initialValues={{
-                name: 'Jadis da Silva Jale',
-                login: 'jsj',
-                password: '112233',
-                confirmPassword: '112233'
+                name: '',
+                login: '',
+                password: '',
+                confirmPassword: ''
             }}
         >
             {({

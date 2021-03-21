@@ -29,8 +29,8 @@ const Login = (props) => {
             }}
 
             initialValues={{
-                login: 'xxx',
-                password: '112233',
+                login: '',
+                password: '',
             }}
         >
             {({
