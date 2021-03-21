@@ -1,4 +1,4 @@
-import { ALTERNATIVE_ID, ALTERNATIVE_RESPONSE } from '../store/action/actionsType'
+import { ALTERNATIVE_ID, ALTERNATIVE_RESPONSE, SHOW_VIDEO } from '../store/action/actionsType'
 
 import axios from 'axios'
 import { modelError } from '../model_error'
@@ -17,9 +17,16 @@ export function chekAlternative(alternativeId, check) {
                 toastr.success('Atenção', resp.data.message)
                 const newValue = check ? false : true
                 dispatch({ type: ALTERNATIVE_RESPONSE, payload: newValue })
+                dispatch({ type: SHOW_VIDEO, payload: true })
             })
             .catch(error => {
                 modelError(error)
             })
+    }
+}
+
+export function disableVideo() {
+    return dispatch => {
+        dispatch({ type: SHOW_VIDEO, payload: false })
     }
 }
