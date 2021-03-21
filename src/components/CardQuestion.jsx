@@ -41,7 +41,7 @@ const CardQuestion = (props) => {
                     <Modal.Title>{titleSelectd}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {props.alternativeSelected.showVideo == false &&
+                    {props.alternativeSelected.showVideo === false &&
                         <>
                             {questionSelected.description}
                             <ListAlternative
@@ -51,7 +51,7 @@ const CardQuestion = (props) => {
                         </>
                     }
                 </Modal.Body>
-                    {props.alternativeSelected.showVideo == false && show == true &&
+                    {props.alternativeSelected.showVideo === false && show === true &&
                         <Modal.Footer>
                             <Button
                                 variant="primary"
