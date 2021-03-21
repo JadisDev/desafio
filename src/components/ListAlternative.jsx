@@ -13,6 +13,7 @@ const ListAlternative = (props) => {
             <ButtonGroup toggle>
                 {show && alternatives.map((alternative, index) => (
                     <ToggleButton
+                        style={{"margin-left": "10px"}}
                         key={index}
                         type="radio"
                         name="radio"
