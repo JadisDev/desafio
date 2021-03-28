@@ -1,117 +1,108 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { login } from '../auth/authAction'
-import { Formik, Field } from 'formik'
-import * as yup from 'yup'
-import { connect } from 'react-redux'
-
+import { toastr } from 'react-redux-toastr'
 import Label from '../components/Label'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import Alternatives from '../components/Alternatives'
 
 const Admin = (props) => {
 
-    const schema = yup.object({
-        type: yup.string().required('Obrigatório'),
-        question: yup.string().min(3, 'Questão muito curto').required('Obrigatório'),
-    });
+    const [question, setQuestion] = useState('')
+    const [type, setType] = useState('')
+    const [alternatives, setAlternatives] = useState([])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        if (type === '') {
+            toastr.warning('Atenção', "Informe o tipo da questão")
+            return false;
+        }
+
+        if (question === '') {
+            toastr.warning('Atenção', "Informe a questão")
+            return false;
+        }
+
+        if (alternatives.length === 0) {
+            toastr.warning('Atenção', "Informe pelo menos uma alternativa")
+            return false;
+        }
+
+        var existAlternativeTrue = []
+
+        alternatives.map((value) => {
+            if (value.alternative === '') {
+                toastr.warning('Atenção', "Informe a descrição da alternativa")
+                return false;
+            }
+            if (value.check) {
+                existAlternativeTrue.push(true)
+            }
+        });
+
+        if (existAlternativeTrue.length !== 1) {
+            toastr.warning('Atenção', "Precisa ter pelo menos uma alternativa verdadeira")
+            return false;
+        }
+
+        var item = {
+            type,
+            question,
+            alternatives
+        }
+
+        console.log(item);
+    }
 
     return (
-        <Formik
+        <Form noValidate onSubmit={handleSubmit}>
+            <h1 className="d-flex justify-content-center">Cadastro de novos desafios</h1>
+            <Form.Row>
+            <Form.Group as={Col} md="12" controlId="validationFormik112">
+                    <Form.Label>Tipo de questão</Form.Label>
+                    <Form.Control
+                        as="select"
+                        onChange={e => setType(e.target.value)}
+                    >
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </Form.Control>
+                </Form.Group>
+            </Form.Row>
 
-            validationSchema={schema}
+            <Form.Row>
+                <Form.Group as={Col} md="12" controlId="validationFormik102">
+                    <Label label="Questão" />
+                    <Input
+                        type="text"
+                        placeholder="Informe a questão"
+                        name="question"
+                        onChange={e => setQuestion(e.target.value)}
+                        value={question}
+                    >
+                    </Input>
+                </Form.Group>
+            </Form.Row>
 
-            onSubmit={values => {
-                console.log(values)
-            }}
+            <Alternatives alternatives={setAlternatives}/>
 
-            initialValues={{
+            <Button
+                type="submit"
+                variant="outline-primary"
+                size="lg"
+                action={() => { }}
+                name="Cadastrar"
+            >
+            </Button>
 
-            }}
-        >
-            {({
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                isValid,
-                errors,
-            }) => (
-                <div className="container">
-                    <Form noValidate onSubmit={handleSubmit}>
-                        <h1 className="d-flex justify-content-center">Login sistema</h1>
-                        <Form.Row>
-                            <Form.Group as={Col} md="12" controlId="validationFormik101">
-                                <Label label="type" />
-                                <Field
-                                    as="select"
-                                    name="type"
-                                    onChange={handleChange}
-                                    isValid={touched.type && !errors.type}
-                                    isInvalid={!!errors.type}
-                                >
-                                    <option value="red">Red</option>
-                                    <option value="green">Green</option>
-                                    <option value="blue">Blue</option>
-                                </Field>
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.type}
-                                </Form.Control.Feedback>
-                                <Form.Control.Feedback >Tudo ok!</Form.Control.Feedback>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
-                            <Form.Group as={Col} md="12" controlId="validationFormik102">
-                                <Label label="Questão" />
-                                <Input
-                                    type="text"
-                                    placeholder="Informe a questão"
-                                    name="question"
-                                    onChange={handleChange}
-                                    isValid={touched.question && !errors.question}
-                                    isInvalid={!!errors.question}
-                                    value={values.question}
-                                >
-                                </Input>
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.question}
-                                </Form.Control.Feedback>
-                                <Form.Control.Feedback >Tudo ok!</Form.Control.Feedback>
-                            </Form.Group>
-                        </Form.Row>
-
-
-                        <Form.Row>
-                            <Form.Group as={Col} md="12" controlId="validationFormik122">
-                                <Label label="Alternativa" />
-                                <Input
-                                    type="text"
-                                    placeholder="Informe a questão"
-                                    name="alternative_description"
-                                >
-                                </Input>
-                                <Form.Group controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Check me out" />
-                                </Form.Group>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Button
-                            type="submit"
-                            variant="outline-primary"
-                            size="lg"
-                            action={() => { }}
-                            name="Cadastrar"
-                        >
-                        </Button>
-
-                    </Form>
-                </div>
-            )}
-        </Formik>
+        </Form>
     )
 
 }

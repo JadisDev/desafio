@@ -11,7 +11,7 @@ const Routes = (props) => {
             <Switch>
                 <Route path="/" exact component={AuthOrApp} />
                 <Route path="/SignUp" component={SignUp} />
-                {/* <Route path="/admin" component={Admin} /> */}
+                <Route path="/admin" component={Admin} />
             </Switch>
         </ BrowserRouter>
     )
