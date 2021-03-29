@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { toastr } from 'react-redux-toastr'
@@ -6,12 +6,35 @@ import Label from '../components/Label'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import Alternatives from '../components/Alternatives'
+import axios from 'axios';
+import consts from '../const'
+import { modelError } from '../model_error'
+import { connect } from 'react-redux'
 
 const Admin = (props) => {
 
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + props.auth.user.token
+
     const [question, setQuestion] = useState('')
     const [type, setType] = useState('')
+    const [typesDB, setTypesDB] = useState(0)
     const [alternatives, setAlternatives] = useState([])
+    const [request, setRequest] = useState(false);
+
+    async function getTypes() {
+        try {
+            const result = await axios.get(`${consts.API_URL}/api/types`)
+            const typesRequest = result.data.data
+            setTypesDB(typesRequest)
+            setRequest(true)
+        } catch (error) {
+            modelError(error)
+        }
+    }
+
+    useEffect(() => {
+        getTypes()
+    }, [request])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -61,18 +84,16 @@ const Admin = (props) => {
         <Form noValidate onSubmit={handleSubmit}>
             <h1 className="d-flex justify-content-center">Cadastro de novos desafios</h1>
             <Form.Row>
-            <Form.Group as={Col} md="12" controlId="validationFormik112">
+                <Form.Group as={Col} md="12" controlId="validationFormik112">
                     <Form.Label>Tipo de questão</Form.Label>
                     <Form.Control
                         as="select"
                         onChange={e => setType(e.target.value)}
                     >
                         <option></option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        {typesDB && typesDB.map((typeDB, index) => (
+                            <option key={index} value={typeDB.id}>{typeDB.text}</option>
+                        ))}
                     </Form.Control>
                 </Form.Group>
             </Form.Row>
@@ -91,7 +112,7 @@ const Admin = (props) => {
                 </Form.Group>
             </Form.Row>
 
-            <Alternatives alternatives={setAlternatives}/>
+            <Alternatives alternatives={setAlternatives} />
 
             <Button
                 type="submit"
@@ -102,9 +123,22 @@ const Admin = (props) => {
             >
             </Button>
 
-        </Form>
+        </Form >
     )
-
 }
 
-export default Admin
+function mapToStateToProps(state) {
+    return {
+        auth: state.auth,
+    }
+}
+
+function mapDispatchProp(dispatch) {
+    return {
+        logout() {
+
+        }
+    }
+}
+
+export default connect(mapToStateToProps, mapDispatchProp)(Admin)
